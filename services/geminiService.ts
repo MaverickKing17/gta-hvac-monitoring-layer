@@ -1,9 +1,18 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+let ai: GoogleGenAI | null = null;
+
+const getAiClient = () => {
+  if (!ai) {
+    const apiKey = process.env.API_KEY || '';
+    ai = new GoogleGenAI({ apiKey });
+  }
+  return ai;
+};
 
 export const generateDiagnosticReport = async (alertMessage: string, deviceType: string) => {
   try {
+    const client = getAiClient();
     const model = 'gemini-3-flash-preview';
     const prompt = `
       You are an expert HVAC technician and AI diagnostic agent for "Ambient Twin".
@@ -20,7 +29,7 @@ export const generateDiagnosticReport = async (alertMessage: string, deviceType:
       5. Tone: Enterprise, technical, authoritative.
     `;
 
-    const response = await ai.models.generateContent({
+    const response = await client.models.generateContent({
       model: model,
       contents: prompt,
     });
