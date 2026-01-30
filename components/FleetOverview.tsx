@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Device } from '../types';
-import { Wifi, AlertTriangle, Droplets, Thermometer, Battery, Wind, Flame, Snowflake, Cpu, Signal } from 'lucide-react';
+import { Wifi, AlertTriangle, Droplets, Thermometer, Battery, Wind, Flame, Snowflake, Cpu, Signal, Truck } from 'lucide-react';
 
 interface FleetOverviewProps {
   devices: Device[];
@@ -16,25 +16,25 @@ export const FleetOverview: React.FC<FleetOverviewProps> = ({ devices }) => {
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between mb-2">
-        <div>
-           <h3 className="text-white font-semibold text-lg flex items-center">
+    <div className="space-y-6">
+      <div className="flex flex-col space-y-4">
+        <div className="flex items-center justify-between">
+           <h3 className="text-white font-extrabold text-xl uppercase tracking-tighter">
              Digital Twin Fleet
-             <span className="ml-3 text-xs font-mono text-slate-500 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
-               {devices.length} NODE(S) ACTIVE
-             </span>
            </h3>
+           <span className="text-[11px] font-bold font-mono text-white bg-slate-800 px-3 py-1 rounded-lg border border-slate-700 shadow-xl">
+               {devices.length} NODES
+           </span>
         </div>
         <div className="flex space-x-2">
            {['All', 'Warning'].map((f) => (
              <button 
                key={f}
                onClick={() => setFilter(f as any)}
-               className={`text-xs px-3 py-1.5 rounded transition-colors border ${
+               className={`text-[11px] font-bold uppercase tracking-widest px-4 py-2 rounded-xl transition-all border ${
                  filter === f 
-                 ? 'bg-electric/10 text-electric border-electric/30' 
-                 : 'bg-slate-900 text-slate-500 border-slate-800 hover:text-slate-300'
+                 ? 'bg-orange-500 text-black border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.3)]' 
+                 : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white hover:border-slate-600'
                }`}
              >
                {f}
@@ -43,96 +43,84 @@ export const FleetOverview: React.FC<FleetOverviewProps> = ({ devices }) => {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-4">
         {filteredDevices.map((device) => (
           <div 
             key={device.id} 
-            className={`glass-card p-4 rounded-lg border-l-[3px] transition-all hover:bg-slate-800/40 cursor-pointer group relative overflow-hidden ${
-              device.status === 'Warning' ? 'border-l-red-500' : 'border-l-emerald-500'
+            className={`glass-card p-5 rounded-2xl border-l-4 transition-all hover:scale-[1.02] cursor-pointer group relative overflow-hidden shadow-xl ${
+              device.status === 'Warning' ? 'border-l-orange-500 bg-orange-500/5' : 'border-l-emerald-500 bg-emerald-500/5'
             }`}
           >
-            {/* Background Tech Pattern */}
-            <div className="absolute right-0 top-0 w-32 h-full opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] pointer-events-none" />
-
-            <div className="flex justify-between items-start mb-3 relative z-10">
+            <div className="flex justify-between items-start mb-4 relative z-10">
               <div>
-                <div className="flex items-center space-x-2">
-                   <h4 className="text-slate-200 font-semibold text-sm">{device.name}</h4>
-                   {device.status === 'Warning' && <AlertTriangle className="w-3.5 h-3.5 text-red-500 animate-pulse" />}
-                   <span className="text-[10px] bg-slate-800 text-slate-500 px-1.5 rounded border border-slate-700 font-mono">{device.zone}</span>
+                <div className="flex items-center space-x-3">
+                   <h4 className="text-white font-bold text-base">{device.name}</h4>
+                   {device.status === 'Warning' && <AlertTriangle className="w-4 h-4 text-orange-500 animate-pulse" />}
                 </div>
-                <div className="flex items-center space-x-2 mt-1">
-                   <p className="text-xs text-slate-500">{device.location}</p>
-                   <span className="text-[10px] text-slate-600 font-mono">ID: {device.id.toUpperCase()}</span>
+                <div className="flex items-center space-x-3 mt-1.5">
+                   <p className="text-[11px] text-slate-200 font-semibold uppercase">{device.location}</p>
+                   <span className="text-[10px] text-white bg-black/50 px-2 py-0.5 rounded border border-white/10 font-mono">{device.zone}</span>
                 </div>
               </div>
               <div className="flex flex-col items-end">
-                 <div className="flex items-center space-x-1.5">
-                    <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${device.status === 'Online' ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                    <span className={`text-xs font-medium ${device.status === 'Online' ? 'text-emerald-500' : 'text-red-500'}`}>
-                       {device.status.toUpperCase()}
+                 <div className="flex items-center space-x-2 bg-black/40 px-2.5 py-1 rounded-full border border-white/10">
+                    <span className={`w-2 h-2 rounded-full ${device.status === 'Online' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 'bg-orange-500 shadow-[0_0_8px_#f97316]'}`} />
+                    <span className={`text-[11px] font-bold uppercase ${device.status === 'Online' ? 'text-emerald-400' : 'text-orange-400'}`}>
+                       {device.status}
                     </span>
                  </div>
-                 <span className="text-[10px] text-slate-600 mt-0.5 font-mono">FW: {device.firmware}</span>
+                 <span className="text-[10px] text-slate-400 mt-1.5 font-bold font-mono">VER: {device.firmware}</span>
               </div>
             </div>
 
-            {/* Telemetry Grid */}
-            <div className="grid grid-cols-4 gap-2 mt-3 relative z-10">
-              
-              {/* Temp */}
-              <div className="bg-slate-950/50 rounded border border-slate-800 p-2 flex flex-col justify-center items-center">
-                <span className="text-[10px] text-slate-500 uppercase mb-0.5">Indoor</span>
+            {/* HIGH CONTRAST TELEMETRY */}
+            <div className="grid grid-cols-4 gap-2.5 mt-4 relative z-10">
+              <div className="bg-black/60 rounded-xl border border-white/10 p-3 flex flex-col items-center shadow-inner">
+                <span className="text-[9px] text-slate-400 font-bold uppercase mb-1">Indoor</span>
                 <div className="flex items-center">
-                   <span className="text-lg font-mono text-white font-medium">{device.currentTemp}</span>
-                   <span className="text-xs text-slate-500 ml-0.5">°C</span>
+                   <span className="text-xl font-bold text-white">{device.currentTemp}</span>
+                   <span className="text-xs text-slate-400 ml-0.5 font-bold">°C</span>
                 </div>
               </div>
 
-              {/* Humidity */}
-              <div className="bg-slate-950/50 rounded border border-slate-800 p-2 flex flex-col justify-center items-center">
-                 <span className="text-[10px] text-slate-500 uppercase mb-0.5">Humidity</span>
+              <div className="bg-black/60 rounded-xl border border-white/10 p-3 flex flex-col items-center shadow-inner">
+                 <span className="text-[9px] text-slate-400 font-bold uppercase mb-1">Humidity</span>
                  <div className="flex items-center">
-                    <Droplets className="w-3 h-3 text-blue-500 mr-1" />
-                    <span className="text-lg font-mono text-white font-medium">{device.humidity}%</span>
+                    <Droplets className="w-3.5 h-3.5 text-blue-400 mr-1.5" />
+                    <span className="text-xl font-bold text-white">{device.humidity}%</span>
                  </div>
               </div>
 
-              {/* Mode Status */}
-              <div className="bg-slate-950/50 rounded border border-slate-800 p-2 flex flex-col justify-center items-center">
-                <span className="text-[10px] text-slate-500 uppercase mb-0.5">Mode</span>
-                <div className="flex items-center space-x-1">
+              <div className="bg-black/60 rounded-xl border border-white/10 p-3 flex flex-col items-center shadow-inner">
+                <span className="text-[9px] text-slate-400 font-bold uppercase mb-1">Mode</span>
+                <div className="flex items-center space-x-1.5">
                    {device.mode === 'Heat' && <Flame className="w-4 h-4 text-orange-500" />}
                    {device.mode === 'Cool' && <Snowflake className="w-4 h-4 text-blue-400" />}
-                   {device.mode === 'Idle' && <div className="w-4 h-4 rounded-full border-2 border-slate-600" />}
-                   {device.mode === 'Aux' && <AlertTriangle className="w-4 h-4 text-red-500" />}
-                   <span className="text-xs text-slate-300 font-medium">{device.mode}</span>
+                   <span className="text-[11px] text-white font-bold">{device.mode.toUpperCase()}</span>
                 </div>
               </div>
 
-              {/* Fan Status */}
-              <div className="bg-slate-950/50 rounded border border-slate-800 p-2 flex flex-col justify-center items-center">
-                 <span className="text-[10px] text-slate-500 uppercase mb-0.5">Fan</span>
-                 <div className="flex items-center space-x-1">
-                    <Wind className={`w-4 h-4 text-slate-400 ${device.fanState === 'On' ? 'animate-spin-slow' : ''}`} />
-                    <span className="text-xs text-slate-300 font-medium">{device.fanState}</span>
+              <div className="bg-black/60 rounded-xl border border-white/10 p-3 flex flex-col items-center shadow-inner">
+                 <span className="text-[9px] text-slate-400 font-bold uppercase mb-1">Fan</span>
+                 <div className="flex items-center space-x-1.5">
+                    <Wind className={`w-4 h-4 text-emerald-400 ${device.fanState === 'On' ? 'animate-spin' : ''}`} />
+                    <span className="text-[11px] text-white font-bold">{device.fanState.toUpperCase()}</span>
                  </div>
               </div>
-
             </div>
             
-            <div className="mt-3 flex justify-between items-center border-t border-slate-800/50 pt-2">
-               <div className="flex items-center space-x-3">
-                  <div className="flex items-center space-x-1 text-[10px] text-slate-500">
-                     <Cpu className="w-3 h-3" />
-                     <span>Seam IoT</span>
+            <div className="mt-4 flex justify-between items-center border-t border-white/10 pt-3">
+               <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-1.5 text-[10px] text-slate-300 font-bold">
+                     <Cpu className="w-3.5 h-3.5 text-orange-500" />
+                     <span>SEAM IoT</span>
                   </div>
-                  <div className="flex items-center space-x-1 text-[10px] text-slate-500">
-                     <Signal className="w-3 h-3 text-emerald-500" />
-                     <span>-42 dBm</span>
+                  <div className={`flex items-center space-x-1.5 text-[10px] font-bold ${device.status === 'Warning' ? 'text-orange-400' : 'text-emerald-400'}`}>
+                     <Truck className="w-3.5 h-3.5" />
+                     <span>{device.status === 'Warning' ? 'TRUCK ROLL ADVISED' : 'PRE-DIAG NO FAULT'}</span>
                   </div>
                </div>
-               <span className="text-[10px] text-slate-600 font-mono">Synced {device.lastSync}</span>
+               <span className="text-[10px] text-slate-400 font-bold font-mono">SYNC {device.lastSync.toUpperCase()}</span>
             </div>
           </div>
         ))}
