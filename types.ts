@@ -34,3 +34,10 @@ export interface DiagnosticAlert {
   timestamp: string;
   code: string; // Error code e.g. E-403
 }
+
+export interface TelemetryPoint {
+  time: string;
+  motorAmps: number;
+  staticPressure: number;
+  limit: number;
+}

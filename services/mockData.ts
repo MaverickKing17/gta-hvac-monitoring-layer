@@ -1,4 +1,4 @@
-import { Device, DiagnosticAlert, GridStatus } from '../types';
+import { Device, DiagnosticAlert, GridStatus, TelemetryPoint } from '../types';
 
 export const MOCK_GRID_STATUS: GridStatus = {
   load: 19240,
@@ -80,3 +80,16 @@ export const MOCK_ALERTS: DiagnosticAlert[] = [
     code: 'MAINT-004'
   }
 ];
+
+// Generate 24 points of data simulating a motor struggling
+export const MOCK_TELEMETRY: TelemetryPoint[] = Array.from({ length: 24 }, (_, i) => {
+  const baseAmp = 4.2;
+  // Simulate a spike in amps at index 18 (approx 08:42 AM)
+  const spike = i > 16 ? (Math.random() * 2.5) : 0; 
+  return {
+    time: `${String(i).padStart(2, '0')}:00`,
+    motorAmps: Number((baseAmp + (Math.random() * 0.4) + spike).toFixed(2)),
+    staticPressure: Number((0.4 + (Math.random() * 0.1) + (i > 16 ? -0.2 : 0)).toFixed(2)),
+    limit: 6.0
+  };
+});
