@@ -1,5 +1,19 @@
 export type UserRole = 'HOMEOWNER' | 'PARTNER' | 'REALTOR';
 
+export interface PartnerBranding {
+  logoUrl?: string;
+  companyName: string;
+  primaryColor: string;
+  accentColor: string;
+}
+
+export interface SecurityStatus {
+  soc2Status: 'Compliant' | 'Auditing';
+  dataResidency: string;
+  encryptionStatus: string;
+  lastSecurityAudit: string;
+}
+
 export interface GridStatus {
   load: number; // MW
   temp: number; // Celsius
@@ -11,13 +25,13 @@ export interface Device {
   id: string;
   name: string;
   type: 'Ecobee Smart' | 'Google Nest' | 'Honeywell Home';
-  location: string; // e.g., "Etobicoke", "Vaughan"
+  location: string;
   zone: string;
   status: 'Online' | 'Offline' | 'Warning';
   currentTemp: number;
   setPoint: number;
   humidity: number;
-  healthScore: number; // 0-100
+  healthScore: number;
   lastSync: string;
   firmware: string;
   mode: 'Heat' | 'Cool' | 'Idle' | 'Aux';
@@ -32,7 +46,7 @@ export interface DiagnosticAlert {
   confidence: number;
   message: string;
   timestamp: string;
-  code: string; // Error code e.g. E-403
+  code: string;
 }
 
 export interface TelemetryPoint {
