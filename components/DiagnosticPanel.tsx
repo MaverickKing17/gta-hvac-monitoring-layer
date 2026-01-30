@@ -117,8 +117,8 @@ export const DiagnosticPanel: React.FC<DiagnosticPanelProps> = ({ alerts, onRemo
                <div className="flex flex-col items-center justify-center h-48 space-y-4">
                  <div className="w-8 h-8 border-2 border-electric border-t-transparent rounded-full animate-spin"></div>
                  <p className="text-xs font-mono text-slate-400 animate-pulse">
-                    > Querying Knowledge Base...<br/>
-                    > Correlating Sensor Data...
+                    &gt; Querying Knowledge Base...<br/>
+                    &gt; Correlating Sensor Data...
                  </p>
                </div>
              ) : (
