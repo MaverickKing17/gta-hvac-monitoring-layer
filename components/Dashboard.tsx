@@ -30,7 +30,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ userRole, onLogout }) => {
   };
 
   return (
-    <div className="min-h-screen bg-obsidian text-white font-sans selection:bg-orange-500/30">
+    <div className="flex-1 flex flex-col bg-obsidian text-white font-sans selection:bg-orange-500/30 overflow-x-hidden">
       <style>{`
         :root {
           --primary-brand: ${branding.primaryColor};
@@ -41,7 +41,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ userRole, onLogout }) => {
       `}</style>
       
       {/* 1. HIGH-IMPACT STATUS TICKER */}
-      <div className="bg-black border-b border-orange-500/30 h-10 flex items-center px-4 overflow-hidden shadow-[0_0_15px_rgba(249,115,22,0.15)]">
+      <div className="bg-black border-b border-orange-500/30 h-10 flex items-center px-4 overflow-hidden shrink-0 shadow-[0_0_15px_rgba(249,115,22,0.15)]">
          <div className="flex space-x-12 animate-marquee whitespace-nowrap text-[11px] font-bold font-mono uppercase tracking-widest text-white">
             <span className="flex items-center"><span className="w-2 h-2 rounded-full bg-emerald-500 mr-2 shadow-[0_0_8px_#10b981]"></span>IESO GRID STATUS: NORMAL (19,240 MW)</span>
             <span className="flex items-center text-orange-400"><span className="w-2 h-2 rounded-full bg-orange-500 mr-2 shadow-[0_0_8px_#f97316]"></span>SEAM API LATENCY: 42ms</span>
@@ -52,13 +52,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ userRole, onLogout }) => {
       </div>
 
       {/* 2. ENTERPRISE HEADER */}
-      <nav className="h-20 border-b border-white/20 glass-panel sticky top-0 z-50 px-8 flex items-center justify-between backdrop-blur-xl shadow-2xl">
+      <nav className="h-20 border-b border-white/20 glass-panel sticky top-0 z-50 px-8 flex items-center justify-between backdrop-blur-xl shadow-2xl shrink-0">
          <div className="flex items-center space-x-6">
             <div className="bg-brand p-2.5 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.4)]">
                <LayoutGrid className="w-6 h-6 text-black font-bold" />
             </div>
             <div>
-               <h1 className="font-extrabold text-white tracking-tight text-2xl uppercase">{branding.companyName}</h1>
+               <h1 className="font-extrabold text-white tracking-tight text-2xl uppercase leading-none">{branding.companyName}</h1>
                <div className="flex items-center mt-1 space-x-3">
                   <span className="text-[11px] text-orange-400 font-bold font-mono tracking-widest uppercase">Ambient Twin • TORONTO NOC</span>
                   <div className="w-1.5 h-1.5 bg-slate-700 rounded-full" />
@@ -120,13 +120,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ userRole, onLogout }) => {
          </div>
       </nav>
 
-      <main className="p-6 md:p-8 max-w-[1700px] mx-auto">
+      {/* 3. MAIN CONTENT AREA */}
+      <main className="flex-1 p-6 md:p-8 w-full max-w-[1700px] mx-auto overflow-y-auto custom-scrollbar">
         {activeTab === 'fleet' ? (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-             <div className="lg:col-span-3 space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+             <div className="lg:col-span-3">
                 <FleetOverview devices={MOCK_DEVICES} />
              </div>
-             <div className="lg:col-span-6 lg:h-[calc(100vh-12rem)]">
+             <div className="lg:col-span-6 h-[800px]">
                 <DiagnosticPanel 
                   alerts={MOCK_ALERTS} 
                   onRemoteAdjust={(id) => console.log(`Remote patch for ${id}`)} 

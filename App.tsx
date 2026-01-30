@@ -18,13 +18,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen w-full bg-obsidian">
       {!isAuthenticated ? (
         <AuthScreen onLogin={handleLogin} gridStatus={MOCK_GRID_STATUS} />
       ) : (
         <Dashboard userRole={userRole} onLogout={handleLogout} />
       )}
-    </>
+    </div>
   );
 };
 
