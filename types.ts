@@ -12,12 +12,16 @@ export interface Device {
   name: string;
   type: 'Ecobee Smart' | 'Google Nest' | 'Honeywell Home';
   location: string; // e.g., "Etobicoke", "Vaughan"
+  zone: string;
   status: 'Online' | 'Offline' | 'Warning';
   currentTemp: number;
   setPoint: number;
   humidity: number;
   healthScore: number; // 0-100
   lastSync: string;
+  firmware: string;
+  mode: 'Heat' | 'Cool' | 'Idle' | 'Aux';
+  fanState: 'On' | 'Auto' | 'Circulate';
 }
 
 export interface DiagnosticAlert {
@@ -28,4 +32,5 @@ export interface DiagnosticAlert {
   confidence: number;
   message: string;
   timestamp: string;
+  code: string; // Error code e.g. E-403
 }
